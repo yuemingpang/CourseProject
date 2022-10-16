@@ -2,6 +2,6 @@
 
 Team members:
 
-Yueming Pang
-Yuling Gao
-Schillaci Mcinnis
+Yueming Pang \n
+Yuling Gao \n
+Schillaci Mcinnis \n
