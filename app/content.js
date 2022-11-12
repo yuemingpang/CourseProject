@@ -10,9 +10,14 @@ setInterval(time, 40)
 
 //find all emails from the current page:
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-	//implement the email search function here:
+	const regularExpression = new RegExp('[a-zA-Z0-9+_.-]{3,20}@[a-zA-Z0-9]{3,20}\.[a-z]{2,3}', 'g')
+	const match = document.documentElement.innerHTML.match(regularExpression)
+	const content = document.body.style.backgroundColor
 
   //Add emails and other parameters, send them to popup:
-	sendResponse()
+	sendResponse({emails: match,
+	    color : content
+	})
 
+    emails : match
 })
