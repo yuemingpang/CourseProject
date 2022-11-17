@@ -1,21 +1,10 @@
 body{
 	background-color: #1f2e47;	
-	width: 240px;
-	height: 380px;
+	width: 320px; 
 	font-family: sans-serif;
 	text-align: center;
 }
-
-button{
-	bottom: 30px;
-	color: #c96513;
-	background-color: white;
-	text-align: center;
-	font-size: 20px;
-	left: 80px;
-	border-radius: 10px
-}
-
+ 
 h1{
 	color: white;
 	left: 40px
@@ -24,5 +13,64 @@ h1{
 .email{
 	color: white;
 	font-size: 12px;
+} 
+ 
+  
+.button-align{
+	padding: 0 !important;
+	margin: 0 !important;
+	margin-top: 0px !important;  
+	margin-left: 10px !important;   
 }
 
+table { 
+	border: none;
+	table-layout: fixed;
+	width: 325px !important; 
+	overflow-y: scroll !important; 
+}
+
+tr {
+	border: 1px solid lightgray; 
+	overflow: hidden; 
+	font-family: Verdana, sans-serif;
+	font-weight: 500;
+	font-size: 12px;
+	white-space: nowrap; 
+	text-overflow: ellipsis;   
+}
+
+.openEmailCell{   
+	width: 54px !important;
+}
+
+.tableDiv{
+	height: 50px !important;
+	display: block;
+}
+
+.infoCell{   
+	overflow: hidden; 
+	padding-left: 5px !important;
+	padding-right: 8px !important;
+}
+
+.infoCell img { 
+	width: 17px;
+	height: 17px;
+	margin-left:8px;
+	margin-right:5px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.button-align img { 
+	width: 15px;
+	height: 15px; 
+	margin: 5px;
+}
+
+.titleLine{
+	font-family: Verdana, sans-serif;
+	font-weight: 900;
+}

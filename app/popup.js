@@ -1,40 +1,70 @@
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
+	//Filter email using TF ranking(See content.js onMessage)
+    onUserSearch = (input) => { 
+        chrome.tabs.query({ currentWindow: true, active: true},
+            tabs => {
+                chrome.tabs.sendMessage(tabs[0].id, input, addEmails)
+            }
+        ) 
+    }   
+  
+	//Callback for updating UI with search results. 
+	addEmails = (res) => {  
+		if (res && res.emails && res.emails.length > 0){
+			document.getElementById("noEmail").style.display = "none"; 
+			document.getElementById("tableDiv").style.display = "block";  
 
-  //get the search button:
-	document.querySelector("button").addEventListener("click", onclick)
-	//Callback:
-	onclick = ()=>{
-		chrome.tabs.query({currentWindow: true, active:true},
-			tabs =>{
-			chrome.tabs.sendMessage(tabs[0].id, "add", addEmails)
-				}
-			)
+			var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0]; 
+			tbodyRef.innerHTML = ""; 
+
+			for(var i = 0; i < res.emails.length; i++){  
+				var newRow = tbodyRef.insertRow();  
+				var infoTextCell = newRow.insertCell(0);  
+				var openTextCell = newRow.insertCell(1);  
+                
+				openTextCell.className = "openEmailCell";  
+				infoTextCell.className = "infoCell";
+
+				var title = document.createElement("b");
+				title.innerHTML = res.emailPurpose[i]; 
+ 
+				infoTextCell.appendChild(getImage("./title.png")); 
+				infoTextCell.appendChild(title);
+				infoTextCell.appendChild(document.createElement("br"));
+				infoTextCell.appendChild(getImage("./obj128x128.png")); 
+				infoTextCell.appendChild(document.createTextNode(res.emails[i]));
+				openTextCell.appendChild(createButton(res.emails[i]));  
+			}  
+		}
+		else{
+			document.getElementById("noEmail").style.display = "block";  
+			document.getElementById("tableDiv").style.display = "none";    
+		}  
+	} 
+
+	createButton = (email) => { 
+		var button = document.createElement("button");
+		button.className = "btn btn-outline-info btn-sm button-align";
+
+		button.addEventListener('click', function(e){  
+		    window.location.href = "mailto:"+email;  
+		});  
+		 
+		button.appendChild(getImage("./pop.png"));
+		return  button;  
 	}
-	let clicked = false
+ 
+	document.getElementsByName("inTxt")[0].addEventListener('keyup', function(e){ 
+		onUserSearch(this.value);
+    }); 
 
-	if (!clicked){
-				clicked = true
-		//Define the callback function. Append all the emails into the list:
-	  addEmails = (res)=>{
-		  chrome.tabs.insertCSS(null, {file : "./popup.css"})
-		  if (res.emails){
-
-				emailList = [...new Set(res.emails)];
-
-		    for (var i = emailList.length - 1; i >= 0; i--) {
-				  let div = document.createElement("div")
-				  div.textContent = `Email # ${emailList.length-i} ${emailList[i]}`
-				  div.classList.add("email")
-				  document.body.appendChild(div)
-			  }
-      //Let the user know if no email was found:
-	    } else {
-				let div = document.createElement("div")
-				div.textContent = "No email was found in current page."
-				div.classList.add("email")
-				document.body.appendChild(div)
-			}	
-    }
-  }
-
+	getImage = (url) => {
+		const img = document.createElement("IMG"); 
+		img["src"] = url;
+		return  img;  
+	}
+	
+	onUserSearch("");
 })
+
+ 
